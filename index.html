@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neon Digital Clock</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #4a6bff;
+        --primary-light: #6b8cff;
+        --text-color: #f5f6fa;
+        --bg-color: #0a192f;
+        --card-bg: #172a45;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --transition-speed: 0.3s;
+      }
+
+      .light-mode {
+        --primary-color: #4a6bff;
+        --primary-light: #6b8cff;
+        --text-color: #0a192f;
+        --bg-color: #f5f6fa;
+        --card-bg: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        transition: background-color var(--transition-speed),
+          color var(--transition-speed);
+      }
+
+      body {
+        font-family: "Orbitron", sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 600px;
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      .clock-container {
+        background-color: var(--card-bg);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px var(--shadow-color);
+        text-align: center;
+        transform: translateY(0);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(74, 107, 255, 0.1);
+      }
+
+      .clock-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px var(--shadow-color);
+      }
+
+      .time-display {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-shadow: 0 0 10px rgba(74, 107, 255, 0.3);
+      }
+
+      .time-display span {
+        display: inline-block;
+        min-width: 80px;
+        text-align: center;
+      }
+
+      .separator {
+        animation: blink 1s infinite;
+        color: var(--primary-color);
+        margin: 0 5px;
+      }
+
+      .date-display {
+        font-size: 1.2rem;
+        margin-bottom: 25px;
+        color: var(--primary-light);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .control-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        background-color: var(--primary-color);
+        color: white;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all var(--transition-speed);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(74, 107, 255, 0.3);
+      }
+
+      .control-btn:hover {
+        background-color: var(--primary-light);
+        transform: scale(1.1);
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* Responsive design */
+      @media (max-width: 600px) {
+        .time-display {
+          font-size: 3rem;
+        }
+
+        .time-display span {
+          min-width: 60px;
+        }
+
+        .date-display {
+          font-size: 1rem;
+        }
+
+        .clock-container {
+          padding: 20px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .time-display {
+          font-size: 2.2rem;
+        }
+
+        .time-display span {
+          min-width: 50px;
+        }
+
+        .date-display {
+          flex-direction: column;
+          gap: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="dark-mode">
+    <div class="container">
+      <div class="clock-container">
+        <div class="time-display">
+          <span id="hours">00</span>
+          <span class="separator">:</span>
+          <span id="minutes">00</span>
+          <span class="separator">:</span>
+          <span id="seconds">00</span>
+        </div>
+        <div class="date-display">
+          <span id="day">MON</span>,
+          <span id="date">01</span>
+          <span id="month">JAN</span>
+          <span id="year">2024</span>
+        </div>
+        <div class="controls">
+          <button id="theme-toggle" class="control-btn">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="format-toggle" class="control-btn">
+            <i class="fas fa-clock"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // DOM Elements
+        const hoursElement = document.getElementById("hours");
+        const minutesElement = document.getElementById("minutes");
+        const secondsElement = document.getElementById("seconds");
+        const dayElement = document.getElementById("day");
+        const dateElement = document.getElementById("date");
+        const monthElement = document.getElementById("month");
+        const yearElement = document.getElementById("year");
+        const themeToggle = document.getElementById("theme-toggle");
+        const formatToggle = document.getElementById("format-toggle");
+
+        // State
+        let is24HourFormat = true;
+        let theme = localStorage.getItem("theme") || "dark-mode";
+
+        // Initialize
+        updateClock();
+        setInterval(updateClock, 1000);
+        applyTheme();
+
+        // Event Listeners
+        themeToggle.addEventListener("click", toggleTheme);
+        formatToggle.addEventListener("click", toggleTimeFormat);
+
+        // Functions
+        function updateClock() {
+          const now = new Date();
+
+          // Time
+          let hours = now.getHours();
+          const minutes = String(now.getMinutes()).padStart(2, "0");
+          const seconds = String(now.getSeconds()).padStart(2, "0");
+
+          if (!is24HourFormat) {
+            const ampm = hours >= 12 ? "PM" : "AM";
+            hours = hours % 12 || 12;
+            hoursElement.textContent = String(hours).padStart(2, "0");
+            secondsElement.textContent = seconds + " " + ampm;
+          } else {
+            hoursElement.textContent = String(hours).padStart(2, "0");
+            secondsElement.textContent = seconds;
+          }
+
+          minutesElement.textContent = minutes;
+
+          // Date
+          const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+          const months = [
+            "JAN",
+            "FEB",
+            "MAR",
+            "APR",
+            "MAY",
+            "JUN",
+            "JUL",
+            "AUG",
+            "SEP",
+            "OCT",
+            "NOV",
+            "DEC",
+          ];
+
+          dayElement.textContent = days[now.getDay()];
+          dateElement.textContent = String(now.getDate()).padStart(2, "0");
+          monthElement.textContent = months[now.getMonth()];
+          yearElement.textContent = now.getFullYear();
+
+          // Add pulse animation every second
+          secondsElement.style.animation = "pulse 0.5s ease";
+          setTimeout(() => {
+            secondsElement.style.animation = "";
+          }, 500);
+        }
+
+        function toggleTheme() {
+          theme = theme === "dark-mode" ? "light-mode" : "dark-mode";
+          applyTheme();
+          localStorage.setItem("theme", theme);
+
+          // Update icon
+          const icon = themeToggle.querySelector("i");
+          icon.className = theme === "dark-mode" ? "fas fa-moon" : "fas fa-sun";
+        }
+
+        function applyTheme() {
+          document.body.className = theme;
+        }
+
+        function toggleTimeFormat() {
+          is24HourFormat = !is24HourFormat;
+          localStorage.setItem("timeFormat", is24HourFormat ? "24" : "12");
+
+          // Update icon
+          const icon = formatToggle.querySelector("i");
+          icon.className = is24HourFormat ? "fas fa-clock" : "fas fa-history";
+
+          // Add animation
+          formatToggle.style.animation = "pulse 0.5s ease";
+          setTimeout(() => {
+            formatToggle.style.animation = "";
+          }, 500);
+        }
+
+        // Check for saved time format preference
+        const savedFormat = localStorage.getItem("timeFormat");
+        if (savedFormat === "12") {
+          is24HourFormat = false;
+          formatToggle.querySelector("i").className = "fas fa-history";
+        }
+      });
+    </script>
+  </body>
+</html>
